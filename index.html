@@ -9,7 +9,7 @@
 <!-- or, set /favicon.ico for IE10 win -->
 <meta name="msapplication-TileColor" content="">
 <meta name="msapplication-TileImage" content="https://files.catbox.moe/ql68rw.png">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <!-- end -->
   <meta charset="UTF-8">
   <title>Ayrisim'e</title>
@@ -17,7 +17,8 @@
     body, html {
       margin: 0;
       height: 100%;
-      overflow-x: hidden;
+      overflow: hidden;
+      touch-action: none;
     }
 
     body {
@@ -31,6 +32,8 @@
       flex-direction: column;
       min-height: 100vh;
       padding: 20px 0;
+      position: fixed;
+      width: 100%;
     }
 
     .main-container {
@@ -42,6 +45,8 @@
       gap: 20px;
       padding: 0 15px;
       box-sizing: border-box;
+      height: 100vh;
+      overflow: hidden;
     }
 
     /* Notepad Styles */
@@ -68,6 +73,7 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
       overflow-y: auto;
       overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
       line-height: 1.6;
       word-break: break-word;
     }
@@ -112,7 +118,7 @@
       text-decoration: underline;
     }
 
-    /* Side Film Strips - Güncellenmiş */
+    /* Side Film Strips */
     .filmstrip-left, .filmstrip-right {
       position: fixed;
       width: 60px;
@@ -287,7 +293,6 @@
         width: calc(100% - 45px);
       }
 
-      /* Mobil için film şeritlerini küçültüp görünür hale getirdim */
       .filmstrip-left, .filmstrip-right {
         display: block;
         width: 30px;
@@ -542,6 +547,13 @@
       redLine.style.transform = `translateY(${scrollTop}px)`;
     });
     
+    // Sayfa kaymasını engelleme
+    document.addEventListener('touchmove', function(e) {
+      if (!e.target.closest('.notepad')) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
     window.addEventListener('resize', adjustNotepadHeight);
     window.addEventListener('load', adjustNotepadHeight);
     adjustNotepadHeight();
