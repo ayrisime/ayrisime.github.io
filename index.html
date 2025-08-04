@@ -59,7 +59,7 @@
       overflow: hidden;
       border-radius: 5px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
-      z-index: 1;
+      z-index: 2; /* Notepad z-index artırıldı */
     }
     
     .notepad {
@@ -118,13 +118,13 @@
       text-decoration: underline;
     }
 
-    /* Side Film Strips */
+    /* Side Film Strips - Z-index ayarı eklendi */
     .filmstrip-left, .filmstrip-right {
       position: fixed;
       width: 60px;
       height: 100vh;
       overflow: hidden;
-      z-index: 0;
+      z-index: 1; /* Slider'lar notepad'in arkasında ama play butonunun önünde */
     }
 
     .filmstrip-left {
@@ -178,7 +178,7 @@
       to { transform: translateY(100vh); }
     }
 
-    /* Play/Pause Button */
+    /* Play/Pause Button - Z-index en yüksek */
     #playPauseBtn {
       position: fixed;
       top: 10px;
@@ -186,7 +186,7 @@
       background: none;
       border: none;
       cursor: pointer;
-      z-index: 1001;
+      z-index: 3; /* En üstte */
     }
 
     #playPauseBtn img {
@@ -196,21 +196,28 @@
       min-height: 30px;
     }
 
+    /* Kalpler için düzeltilmiş stil */
     .heart {
       position: fixed;
-      font-size: 1.5rem;
-      top: -1vh;
-      transform: translateY(0);
-      animation: fall 3s linear forwards;
+      top: -20px;
+      width: 30px;
+      height: 30px;
+      background-image: url('https://media.tenor.com/QC3oCl9WdzoAAAAj/heart-crystal-heart.gif');
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: fall linear forwards;
+      z-index: 0; /* En altta */
       pointer-events: none;
     }
 
     @keyframes fall {
       from {
-        transform: translateY(0vh) translateX(-10vw);
+        transform: translateY(-20px) translateX(calc(-10vw + 10px));
+        opacity: 1;
       }
       to {
-        transform: translateY(105vh) translateX(10vw);
+        transform: translateY(calc(100vh + 20px)) translateX(calc(10vw - 10px));
+        opacity: 0;
       }
     }
 
@@ -231,9 +238,19 @@
     }
 
     @media screen and (max-width: 768px) {
+      body {
+        padding-top: 10px;
+      }
+      
+      .main-container {
+        height: calc(100vh - 20px);
+        padding-top: 10px;
+      }
+      
       .notepad-container {
         width: 90%;
         height: 70vh;
+        margin-top: 0;
       }
 
       .notepad {
@@ -266,6 +283,11 @@
       #playPauseBtn img {
         width: 35px;
         height: 35px;
+      }
+      
+      .heart {
+        width: 25px;
+        height: 25px;
       }
     }
 
@@ -316,6 +338,11 @@
       #playPauseBtn img {
         width: 30px;
         height: 30px;
+      }
+      
+      .heart {
+        width: 20px;
+        height: 20px;
       }
     }
 
@@ -554,27 +581,68 @@
       }
     }, { passive: false });
 
-    window.addEventListener('resize', adjustNotepadHeight);
-    window.addEventListener('load', adjustNotepadHeight);
-    adjustNotepadHeight();
+    // Mobilde notepad'i ortalama
+    function centerNotepad() {
+      if (window.innerWidth <= 768) {
+        const notepadHeight = document.querySelector('.notepad-container').offsetHeight;
+        const windowHeight = window.innerHeight;
+        const topMargin = Math.max(20, (windowHeight - notepadHeight) / 2);
+        
+        document.querySelector('.main-container').style.paddingTop = topMargin + 'px';
+      } else {
+        document.querySelector('.main-container').style.paddingTop = '20px';
+      }
+    }
+
+    window.addEventListener('load', function() {
+      adjustNotepadHeight();
+      centerNotepad();
+    });
+    
+    window.addEventListener('resize', function() {
+      adjustNotepadHeight();
+      centerNotepad();
+    });
     // End
     
-    // Heart Rain
+    // Düzeltilmiş Heart Rain
     function createHeart() {
       const heart = document.createElement('div');
-      const randomImageUrl = 'https://media.tenor.com/QC3oCl9WdzoAAAAj/heart-crystal-heart.gif';
       heart.classList.add('heart');
       heart.style.left = Math.random() * 100 + "vw";
       heart.style.animationDuration = Math.random() * 2 + 3 + "s";
-      heart.style.backgroundImage = `url(${randomImageUrl})`;
-      heart.style.backgroundSize = 'cover';
-      heart.style.width = (Math.random() * 30 + 20) + 'px';
-      heart.style.height = (Math.random() * 30 + 20) + 'px';
+      
+      // Kalp pozisyonunu ayarla
+      const startX = Math.random() * 100;
+      const endX = startX + (Math.random() * 20 - 10);
+      heart.style.setProperty('--start-x', startX + 'vw');
+      heart.style.setProperty('--end-x', endX + 'vw');
+      
       document.body.appendChild(heart);
-      setTimeout(() => {
+      
+      // Animasyon bitince kaldır
+      heart.addEventListener('animationend', function() {
         heart.remove();
-      }, 5000);
+      });
     }
+    
+    // Daha düzgün kalp animasyonu için CSS değişkenleri kullanılıyor
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fall {
+        from {
+          transform: translateY(-20px) translateX(var(--start-x));
+          opacity: 1;
+        }
+        to {
+          transform: translateY(calc(100vh + 20px)) translateX(var(--end-x));
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // Kalp oluşturma aralığını ayarla
     setInterval(createHeart, 300);
     // End
   </script>
