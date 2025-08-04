@@ -27,11 +27,11 @@
       color: #ccc;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       background-color: #1c1c1c;
       flex-direction: column;
       min-height: 100vh;
-      padding: 20px 0;
+      padding-top: 30px;
       position: fixed;
       width: 100%;
     }
@@ -39,13 +39,13 @@
     .main-container {
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       width: 100%;
       position: relative;
       gap: 20px;
       padding: 0 15px;
       box-sizing: border-box;
-      height: 100vh;
+      height: calc(100vh - 30px);
       overflow: hidden;
     }
 
@@ -54,12 +54,13 @@
       position: relative;
       width: 90%;
       max-width: 600px;
-      height: 75vh;
+      height: 70vh;
       min-height: 400px;
       overflow: hidden;
       border-radius: 5px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
-      z-index: 2; /* Notepad z-index artırıldı */
+      z-index: 2;
+      margin-top: 20px;
     }
     
     .notepad {
@@ -118,13 +119,13 @@
       text-decoration: underline;
     }
 
-    /* Side Film Strips - Z-index ayarı eklendi */
+    /* Side Film Strips */
     .filmstrip-left, .filmstrip-right {
       position: fixed;
       width: 60px;
       height: 100vh;
       overflow: hidden;
-      z-index: 1; /* Slider'lar notepad'in arkasında ama play butonunun önünde */
+      z-index: 1;
     }
 
     .filmstrip-left {
@@ -178,7 +179,7 @@
       to { transform: translateY(100vh); }
     }
 
-    /* Play/Pause Button - Z-index en yüksek */
+    /* Play/Pause Button */
     #playPauseBtn {
       position: fixed;
       top: 10px;
@@ -186,7 +187,7 @@
       background: none;
       border: none;
       cursor: pointer;
-      z-index: 3; /* En üstte */
+      z-index: 3;
     }
 
     #playPauseBtn img {
@@ -196,7 +197,7 @@
       min-height: 30px;
     }
 
-    /* Kalpler için düzeltilmiş stil */
+    /* Heart Styles */
     .heart {
       position: fixed;
       top: -20px;
@@ -206,7 +207,7 @@
       background-size: contain;
       background-repeat: no-repeat;
       animation: fall linear forwards;
-      z-index: 0; /* En altta */
+      z-index: 0;
       pointer-events: none;
     }
 
@@ -221,7 +222,7 @@
       }
     }
 
-    /* Responsive Güncellemeleri */
+    /* Responsive Adjustments */
     @media screen and (max-width: 1024px) {
       .filmstrip-left, .filmstrip-right {
         width: 50px;
@@ -239,18 +240,17 @@
 
     @media screen and (max-width: 768px) {
       body {
-        padding-top: 10px;
+        padding-top: 20px;
       }
       
       .main-container {
         height: calc(100vh - 20px);
-        padding-top: 10px;
       }
       
       .notepad-container {
         width: 90%;
-        height: 70vh;
-        margin-top: 0;
+        height: 65vh;
+        margin-top: 10px;
       }
 
       .notepad {
@@ -292,9 +292,14 @@
     }
 
     @media screen and (max-width: 480px) {
+      body {
+        padding-top: 15px;
+      }
+      
       .notepad-container {
         width: 92%;
-        height: 65vh;
+        height: 60vh;
+        margin-top: 5px;
       }
 
       .notepad {
@@ -535,35 +540,6 @@
     // End
     
     // begin Scroll stuffs
-    function adjustNotepadHeight() {
-      const viewportHeight = window.innerHeight;
-      const notepadContainer = document.querySelector('.notepad-container');
-      const notepad = document.querySelector('.notepad');
-      
-      if (window.innerWidth <= 768) {
-        notepadContainer.style.height = '70vh';
-        notepad.style.height = '100%';
-      } else {
-        notepadContainer.style.height = '75vh';
-        notepad.style.height = '100%';
-      }
-      
-      if (notepad.scrollHeight > viewportHeight * 0.7) {
-        notepad.style.overflowY = 'auto';
-      } else {
-        notepad.style.overflowY = 'hidden';
-      }
-    }
-    // End
-    
-    // begin Markdown display
-    (async () => {
-      let markdownHTML = await fetchMarkdownFile();
-      await typeEffect(convertMarkdownToHTML(markdownHTML), 'content', 15);
-    })();
-    // End
-    
-    // begin more stuffs for scroll
     const notepad = document.querySelector('.notepad');
     const guideLines = document.querySelector('.guide-lines');
     const redLine = document.querySelector('.red-line');
@@ -581,69 +557,33 @@
       }
     }, { passive: false });
 
-    // Mobilde notepad'i ortalama
-    function centerNotepad() {
-      if (window.innerWidth <= 768) {
-        const notepadHeight = document.querySelector('.notepad-container').offsetHeight;
-        const windowHeight = window.innerHeight;
-        const topMargin = Math.max(20, (windowHeight - notepadHeight) / 2);
-        
-        document.querySelector('.main-container').style.paddingTop = topMargin + 'px';
-      } else {
-        document.querySelector('.main-container').style.paddingTop = '20px';
-      }
-    }
-
-    window.addEventListener('load', function() {
-      adjustNotepadHeight();
-      centerNotepad();
-    });
-    
-    window.addEventListener('resize', function() {
-      adjustNotepadHeight();
-      centerNotepad();
-    });
-    // End
-    
-    // Düzeltilmiş Heart Rain
+    // Heart Rain
     function createHeart() {
       const heart = document.createElement('div');
       heart.classList.add('heart');
       heart.style.left = Math.random() * 100 + "vw";
       heart.style.animationDuration = Math.random() * 2 + 3 + "s";
-      
-      // Kalp pozisyonunu ayarla
-      const startX = Math.random() * 100;
-      const endX = startX + (Math.random() * 20 - 10);
-      heart.style.setProperty('--start-x', startX + 'vw');
-      heart.style.setProperty('--end-x', endX + 'vw');
-      
       document.body.appendChild(heart);
       
-      // Animasyon bitince kaldır
       heart.addEventListener('animationend', function() {
         heart.remove();
       });
     }
     
-    // Daha düzgün kalp animasyonu için CSS değişkenleri kullanılıyor
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes fall {
-        from {
-          transform: translateY(-20px) translateX(var(--start-x));
-          opacity: 1;
-        }
-        to {
-          transform: translateY(calc(100vh + 20px)) translateX(var(--end-x));
-          opacity: 0;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-    
-    // Kalp oluşturma aralığını ayarla
     setInterval(createHeart, 300);
+    
+    // Markdown display
+    (async () => {
+      let markdownHTML = await fetchMarkdownFile();
+      await typeEffect(convertMarkdownToHTML(markdownHTML), 'content', 15);
+      
+      // Notepad overflow kontrolü
+      if (notepad.scrollHeight > notepad.clientHeight) {
+        notepad.style.overflowY = 'auto';
+      } else {
+        notepad.style.overflowY = 'hidden';
+      }
+    })();
     // End
   </script>
 </body>
