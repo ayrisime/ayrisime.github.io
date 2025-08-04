@@ -9,6 +9,7 @@
 <!-- or, set /favicon.ico for IE10 win -->
 <meta name="msapplication-TileColor" content="">
 <meta name="msapplication-TileImage" content="https://files.catbox.moe/ql68rw.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- end -->
   <meta charset="UTF-8">
   <title>Ayrisim'e</title>
@@ -39,14 +40,17 @@
       width: 100%;
       position: relative;
       gap: 20px;
+      padding: 0 15px;
+      box-sizing: border-box;
     }
 
     /* Notepad Styles */
     .notepad-container {
       position: relative;
-      width: 75%;
+      width: 90%;
       max-width: 600px;
       height: 75vh;
+      min-height: 400px;
       overflow: hidden;
       border-radius: 5px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
@@ -60,17 +64,19 @@
       background: #1c1c1c;
       border: 1px solid #333;
       padding: 20px;
+      box-sizing: border-box;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
       overflow-y: auto;
       overflow-x: hidden;
       line-height: 1.6;
+      word-break: break-word;
     }
 
     .guide-lines {
       position: absolute;
       left: 70px;
       top: 0;
-      width: 100%;
+      width: calc(100% - 80px);
       height: 100%;
       background: repeating-linear-gradient(to bottom, #1c1c1c, #1c1c1c 24px, #2c2c2c 25px);
       pointer-events: none;
@@ -93,6 +99,8 @@
       word-wrap: break-word;
       margin-left: 70px;
       padding-right: 10px;
+      width: calc(100% - 80px);
+      overflow-wrap: break-word;
     }
 
     .content a {
@@ -104,29 +112,29 @@
       text-decoration: underline;
     }
 
-    /* Side Film Strips */
+    /* Side Film Strips - Güncellenmiş */
     .filmstrip-left, .filmstrip-right {
       position: fixed;
-      width: 80px;
+      width: 60px;
       height: 100vh;
       overflow: hidden;
       z-index: 0;
     }
 
     .filmstrip-left {
-      left: 20px;
+      left: 5px;
       top: 0;
     }
 
     .filmstrip-right {
-      right: 20px;
+      right: 5px;
       top: 0;
     }
 
     .vertical-filmstrip {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 10px;
       padding: 20px 0;
     }
 
@@ -140,8 +148,8 @@
 
     .vertical-frame {
       flex-shrink: 0;
-      width: 70px;
-      height: 70px;
+      width: 50px;
+      height: 50px;
       border: 2px solid #53a245;
       border-radius: 8px;
       overflow: hidden;
@@ -167,8 +175,8 @@
     /* Play/Pause Button */
     #playPauseBtn {
       position: fixed;
-      top: 5px;
-      left: 5px;
+      top: 10px;
+      left: 10px;
       background: none;
       border: none;
       cursor: pointer;
@@ -176,8 +184,10 @@
     }
 
     #playPauseBtn img {
-      width: 5vh;
-      height: 5vh;
+      width: 40px;
+      height: 40px;
+      min-width: 30px;
+      min-height: 30px;
     }
 
     .heart {
@@ -186,6 +196,7 @@
       top: -1vh;
       transform: translateY(0);
       animation: fall 3s linear forwards;
+      pointer-events: none;
     }
 
     @keyframes fall {
@@ -197,77 +208,26 @@
       }
     }
 
-    #kad, #tuce {
-      color: #53a245;
-    }
-
-    /* Mobile Responsive */
+    /* Responsive Güncellemeleri */
     @media screen and (max-width: 1024px) {
       .filmstrip-left, .filmstrip-right {
-        width: 60px;
-      }
-      
-      .filmstrip-left {
-        left: 10px;
-      }
-
-      .filmstrip-right {
-        right: 10px;
-      }
-      
-      .vertical-frame {
         width: 50px;
-        height: 50px;
-      }
-    }
-
-    @media screen and (max-width: 768px) {
-      .notepad-container {
-        width: 75%;
-        max-width: 600px;
-        height: 75vh;
-      }
-
-      .notepad {
-        padding: 20px;
-      }
-
-      .guide-lines {
-        left: 70px;
-      }
-
-      .red-line {
-        left: 60px;
-      }
-
-      .content {
-        margin-left: 70px;
-        padding-right: 10px;
-      }
-
-      .filmstrip-left, .filmstrip-right {
-        width: 50px;
-      }
-      
-      .filmstrip-left {
-        left: 5px;
-      }
-
-      .filmstrip-right {
-        right: 5px;
       }
       
       .vertical-frame {
         width: 40px;
         height: 40px;
       }
+      
+      .notepad-container {
+        width: 85%;
+      }
     }
 
-    @media screen and (max-width: 480px) {
+    @media screen and (max-width: 768px) {
       .notepad-container {
-        width: 75%;
-        max-width: 600px;
-        height: 75vh;
+        width: 90%;
+        height: 70vh;
       }
 
       .notepad {
@@ -285,23 +245,83 @@
       .content {
         margin-left: 50px;
         padding-right: 10px;
+        width: calc(100% - 60px);
       }
 
       .filmstrip-left, .filmstrip-right {
         width: 40px;
       }
       
-      .filmstrip-left {
-        left: 2px;
+      .vertical-frame {
+        width: 35px;
+        height: 35px;
+      }
+      
+      #playPauseBtn img {
+        width: 35px;
+        height: 35px;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .notepad-container {
+        width: 92%;
+        height: 65vh;
       }
 
-      .filmstrip-right {
-        right: 2px;
+      .notepad {
+        padding: 10px;
+      }
+
+      .guide-lines {
+        left: 40px;
+      }
+
+      .red-line {
+        left: 30px;
+      }
+
+      .content {
+        margin-left: 40px;
+        padding-right: 5px;
+        width: calc(100% - 45px);
+      }
+
+      /* Mobil için film şeritlerini küçültüp görünür hale getirdim */
+      .filmstrip-left, .filmstrip-right {
+        display: block;
+        width: 30px;
       }
       
       .vertical-frame {
+        width: 25px;
+        height: 25px;
+        border-width: 1px;
+      }
+      
+      .vertical-filmstrip {
+        gap: 8px;
+      }
+      
+      #playPauseBtn {
+        top: 5px;
+        left: 5px;
+      }
+      
+      #playPauseBtn img {
         width: 30px;
         height: 30px;
+      }
+    }
+
+    @media screen and (max-width: 360px) {
+      .filmstrip-left, .filmstrip-right {
+        width: 25px;
+      }
+      
+      .vertical-frame {
+        width: 20px;
+        height: 20px;
       }
     }
   </style>
@@ -483,14 +503,23 @@
     // End
     
     // begin Scroll stuffs
-    async function adjustNotepadHeight() {
+    function adjustNotepadHeight() {
       const viewportHeight = window.innerHeight;
-      const notepadContainerHeight = document.querySelector('.notepad-container').offsetHeight;
+      const notepadContainer = document.querySelector('.notepad-container');
       const notepad = document.querySelector('.notepad');
-      if (notepad.scrollHeight > viewportHeight) {
-        notepad.style.height = `${viewportHeight}px`;
+      
+      if (window.innerWidth <= 768) {
+        notepadContainer.style.height = '70vh';
+        notepad.style.height = '100%';
       } else {
-        notepad.style.height = `${notepadContainerHeight}px`;
+        notepadContainer.style.height = '75vh';
+        notepad.style.height = '100%';
+      }
+      
+      if (notepad.scrollHeight > viewportHeight * 0.7) {
+        notepad.style.overflowY = 'auto';
+      } else {
+        notepad.style.overflowY = 'hidden';
       }
     }
     // End
@@ -506,12 +535,15 @@
     const notepad = document.querySelector('.notepad');
     const guideLines = document.querySelector('.guide-lines');
     const redLine = document.querySelector('.red-line');
+    
     notepad.addEventListener('scroll', () => {
       const scrollTop = notepad.scrollTop;
       guideLines.style.transform = `translateY(${scrollTop}px)`;
       redLine.style.transform = `translateY(${scrollTop}px)`;
     });
+    
     window.addEventListener('resize', adjustNotepadHeight);
+    window.addEventListener('load', adjustNotepadHeight);
     adjustNotepadHeight();
     // End
     
@@ -524,8 +556,8 @@
       heart.style.animationDuration = Math.random() * 2 + 3 + "s";
       heart.style.backgroundImage = `url(${randomImageUrl})`;
       heart.style.backgroundSize = 'cover';
-      heart.style.width = '50px';
-      heart.style.height = '50px';
+      heart.style.width = (Math.random() * 30 + 20) + 'px';
+      heart.style.height = (Math.random() * 30 + 20) + 'px';
       document.body.appendChild(heart);
       setTimeout(() => {
         heart.remove();
@@ -535,5 +567,4 @@
     // End
   </script>
 </body>
-
 </html>
