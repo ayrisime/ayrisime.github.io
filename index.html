@@ -31,7 +31,7 @@
       background-color: #1c1c1c;
       flex-direction: column;
       min-height: 100vh;
-      padding-top: 60px;
+      padding-top: 40px;
       position: fixed;
       width: 100%;
     }
@@ -45,21 +45,22 @@
       gap: 20px;
       padding: 0 15px;
       box-sizing: border-box;
-      height: calc(100vh - 60px);
+      height: calc(100vh - 40px);
       overflow: hidden;
     }
 
-    /* Notepad Styles */
+    /* Notepad Styles - Adjusted */
     .notepad-container {
       position: relative;
-      width: 90%;
-      max-width: 600px;
+      width: 85%; /* Genişlik azaltıldı */
+      max-width: 550px; /* Maksimum genişlik azaltıldı */
       height: 70vh;
       min-height: 400px;
       overflow: hidden;
       border-radius: 5px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
-      z-index: 2; /* Notepad orta katmanda */
+      z-index: 2;
+      margin-top: -5vh; /* Yukarı çekmek için negatif margin */
     }
     
     .notepad {
@@ -118,13 +119,13 @@
       text-decoration: underline;
     }
 
-    /* Side Film Strips - EN ÜST KATMAN */
+    /* Side Film Strips */
     .filmstrip-left, .filmstrip-right {
       position: fixed;
       width: 60px;
       height: 100vh;
       overflow: hidden;
-      z-index: 3; /* Slider'lar en üstte */
+      z-index: 3; /* Notepad'in üstünde */
     }
 
     .filmstrip-left {
@@ -178,7 +179,7 @@
       to { transform: translateY(100vh); }
     }
 
-    /* Play/Pause Button - EN EN ÜST KATMAN */
+    /* Play/Pause Button */
     #playPauseBtn {
       position: fixed;
       top: 10px;
@@ -186,7 +187,7 @@
       background: none;
       border: none;
       cursor: pointer;
-      z-index: 4; /* Slider'ların da üstünde */
+      z-index: 4; /* En üstte */
     }
 
     #playPauseBtn img {
@@ -196,7 +197,6 @@
       min-height: 30px;
     }
 
-    /* Heart Styles - EN ALT KATMAN */
     .heart {
       position: fixed;
       top: -20px;
@@ -233,22 +233,23 @@
       }
       
       .notepad-container {
-        width: 85%;
+        width: 82%; /* Daha dar */
       }
     }
 
     @media screen and (max-width: 768px) {
       body {
-        padding-top: 50px;
+        padding-top: 30px;
       }
       
       .main-container {
-        height: calc(100vh - 50px);
+        height: calc(100vh - 30px);
       }
       
       .notepad-container {
-        width: 90%;
+        width: 80%; /* Daha dar */
         height: 65vh;
+        margin-top: -8vh; /* Daha yukarı */
       }
 
       .notepad {
@@ -291,16 +292,17 @@
 
     @media screen and (max-width: 480px) {
       body {
-        padding-bottom: 100px;
+        padding-top: 25px;
       }
       
       .main-container {
-        height: calc(100vh - 40px);
+        height: calc(100vh - 25px);
       }
       
       .notepad-container {
-        width: 92%;
+        width: 78%; /* En dar */
         height: 60vh;
+        margin-top: -10vh; /* En yukarı */
       }
 
       .notepad {
@@ -365,13 +367,12 @@
   </style>
 </head>
 <body>
-  <!-- Play/Pause Button (z-index:4) -->
   <button id="playPauseBtn">
     <img id="playIcon" src="https://files.catbox.moe/qxi0yr.svg" alt="Parçayı Başlat">
   </button>
   <audio id="audio" src="https://files.catbox.moe/9hnmkt.mp3" hidden></audio>
 
-  <!-- Film Strips (z-index:3) -->
+  <!-- Left Film Strip -->
   <div class="filmstrip-left">
     <div class="vertical-filmstrip" id="leftStrip">
       <div class="vertical-frame">
@@ -420,6 +421,7 @@
     </div>
   </div>
 
+  <!-- Right Film Strip -->
   <div class="filmstrip-right">
     <div class="vertical-filmstrip" id="rightStrip">
       <div class="vertical-frame">
@@ -468,7 +470,7 @@
     </div>
   </div>
 
-  <!-- Notepad (z-index:2) -->
+  <!-- Main Content -->
   <div class="main-container">
     <div class="notepad-container">
       <div class="notepad">
@@ -589,9 +591,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
