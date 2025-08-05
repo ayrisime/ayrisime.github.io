@@ -5,6 +5,7 @@
 <link rel="apple-touch-icon" href="https://files.catbox.moe/ql68rw.png">
 <link rel="shortcut icon" href="https://files.catbox.moe/ql68rw.png">
 <link rel="icon" href="https://files.catbox.moe/ql68rw.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.3.1/index.min.css">
 <!--[if IE]><link rel="shortcut icon" href="path/to/favicon.ico"><![endif]-->
 <!-- or, set /favicon.ico for IE10 win -->
 <meta name="msapplication-TileColor" content="">
@@ -34,6 +35,14 @@
       padding-top: 40px;
       position: fixed;
       width: 100%;
+    }
+
+    .vertical-frame img {
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .vertical-frame img:hover {
+      transform: scale(1.05);
     }
 
     .main-container {
@@ -480,7 +489,7 @@
       </div>
     </div>
   </div>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.3.1/index.min.js"></script>
   <script>
     //Audio Mp3 Begin
     const audio = document.getElementById('audio');
@@ -588,9 +597,32 @@
       }
     })();
     // End
+
+// Galeri için tıklama olaylarını ekle
+  document.addEventListener('DOMContentLoaded', function() {
+    // Tüm resimleri seç
+    const images = document.querySelectorAll('.vertical-frame img');
+    
+    // Her resme tıklama olayı ekle
+    images.forEach((img, index) => {
+      img.addEventListener('click', () => {
+        // Tüm resimlerin src'lerini al
+        const sources = Array.from(document.querySelectorAll('.vertical-frame img'))
+                          .slice(0, 14) // İlk 14 resmi al (duplicate'leri hariç tut)
+                          .map(img => img.src);
+        
+        // fslightbox'ı başlat
+        const fslightbox = new FsLightbox();
+        fslightbox.props.sources = sources;
+        fslightbox.props.index = index % 14; // 14 resme göre mod al
+        fslightbox.open();
+      });
+    });
+  });
   </script>
 </body>
 </html>
+
 
 
 
